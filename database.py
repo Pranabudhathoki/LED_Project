@@ -29,8 +29,7 @@ cursor.execute('''
         NumberOfDays INTEGER NOT NULL,
         PaidTax REAL NOT NULL,
         SubTotal REAL NOT NULL,
-        TotalCost REAL NOT NULL,
-        FOREIGN KEY (CustomerContact) REFERENCES customers(Mobile)
+        TotalCost REAL NOT NULL
     )
 ''')
 cursor.execute('''
@@ -46,4 +45,3 @@ conn.close()
 print("Database and table created successfully!")
 print("Room bookings table created successfully!")
 print("Room details table created successfully!")
-#BookingID TEXT PRIMARY KEY,
