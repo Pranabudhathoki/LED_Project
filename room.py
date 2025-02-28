@@ -188,7 +188,7 @@ class Roombooking:
 
         scroll_x=ttk.Scrollbar(details_table,orient=HORIZONTAL)
         scroll_y=ttk.Scrollbar(details_table,orient=VERTICAL)
-# "id",
+
         self.room_table=ttk.Treeview(details_table,column=("contact","checkin","checkout","roomtype","roomavailable","meal",
                                                                    "noOfdays"),xscrollcommand=scroll_x.set,yscrollcommand=scroll_y.set)   
         
@@ -198,7 +198,7 @@ class Roombooking:
         scroll_x.config(command=self.room_table.xview)
         scroll_y.config(command=self.room_table.yview)
 
-        # self.room_table.heading("id",text="BookingID")
+        
         self.room_table.heading("contact",text="Contact")
         self.room_table.heading("checkin",text="Check-in")
         self.room_table.heading("checkout",text="Check-out")
@@ -210,7 +210,7 @@ class Roombooking:
 
         self.room_table["show"]="headings"
         
-        # self.room_table.column("id",width=100)
+        
         self.room_table.column("contact",width=100)
         self.room_table.column("checkin",width=100)
         self.room_table.column("checkout",width=100)
@@ -232,15 +232,11 @@ class Roombooking:
                 conn = sqlite3.connect('hotel.db')
                 cursor = conn.cursor()
 
-            
-                # booking_id = f"B{random.randint(1000, 9999)}"
-
-           #BookingID,booking_id,
                 cursor.execute('''
                 INSERT INTO room_bookings (
-                     CustomerContact, CheckInDate, CheckOutDate, RoomType,
+                    CustomerContact, CheckInDate, CheckOutDate, RoomType,
                     RoomNumber, MealPlan, NumberOfDays, PaidTax, SubTotal, TotalCost
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ''', (
                 self.var_contact.get(), self.var_checkin.get(), self.var_checkout.get(),
                 self.var_roomtype.get(), self.var_roomavailable.get(), self.var_meal.get(),
@@ -449,7 +445,6 @@ class Roombooking:
                 lbl1=Label(showDataframe,text=row,font=("arial",12,"bold"))
                 lbl1.place(x=90,y=120)
 
-    from datetime import datetime  # Ensure this is imported at the top of your file
 
     def total(self):
         try:
@@ -520,7 +515,27 @@ if __name__=="__main__":
     root=Tk()
     obj=Roombooking(root)
     root.mainloop()
+       
+        
+       
 
+      
+
+        
+       
+
+            
+               
+    
+       
+               
+           
+               
+               
+                
+            
+                
+          
 
 
        
