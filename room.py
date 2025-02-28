@@ -31,7 +31,7 @@ class Roombooking:
         lbl_title.place(x=0,y=0,width=1295,height=50)
 
         #================logo================
-        img2=Image.open(r"C:\Users\ASUS\Downloads\Login (5).png")
+        img2=Image.open(r"C:\Users\Dell\OneDrive\Pictures\Screenshots\logo.png")
         img2 = img2.resize((100,40), Image.LANCZOS)   
         self.photoimg2=ImageTk.PhotoImage(img2)
         
@@ -52,8 +52,7 @@ class Roombooking:
         enty_contact.grid(row=0,column=1,sticky=W)
 
         # featch data button
-        btnFetchData=Button(Labelframeleft,command=self.Fetch_contact,text="Featch Data",font=("arial",9,"bold"),
-        bg="black",fg="gold",width=9)
+        btnFetchData=Button(Labelframeleft,command=self.Fetch_contact,text="Featch Data",font=("arial",9,"bold"),bg="black",fg="gold",width=9)
         btnFetchData.place(x=340,y=4)
 
         # check in date
@@ -151,17 +150,16 @@ class Roombooking:
         btnReset.grid(row=0,column=3,padx=1)
 
         #================right side image================
-        img3=Image.open(r"C:\Users\ASUS\Downloads\Login (5).png")
-        img3 = img3.resize((100,40), Image.LANCZOS)   
+        img3=Image.open(r"C:\Users\Dell\OneDrive\Pictures\Screenshots\x.png")
+        img3 = img3.resize((500,300), Image.LANCZOS)   
         self.photoimg3=ImageTk.PhotoImage(img3)
         
-        lblimg3=Label(self.root,image=self.photoimg2,bd=0,relief=RIDGE)
-        lblimg3.place(x=750, y=55, width=400, height=200)
+        lblimg3=Label(self.root,image=self.photoimg3,bd=0,relief=RIDGE)
+        lblimg3.place(x=750, y=55, width=500, height=300)
 
         #================tabel frame & search system================
 
-        Table_Frame=LabelFrame(self.root,bd=2,relief=RIDGE,text="View Deatils & Search System",padx=2,
-        font=("times new roman",12,"bold"))
+        Table_Frame=LabelFrame(self.root,bd=2,relief=RIDGE,text="View Deatils & Search System",padx=2,font=("times new roman",12,"bold"))
         Table_Frame.place(x=435,y=280,width=860,height=260)
 
         lblSearchBy=Label(Table_Frame,text="Search By:",font=("arial",12,"bold"),bg="red",fg="white")
@@ -190,9 +188,9 @@ class Roombooking:
 
         scroll_x=ttk.Scrollbar(details_table,orient=HORIZONTAL)
         scroll_y=ttk.Scrollbar(details_table,orient=VERTICAL)
-
-        self.room_table=ttk.Treeview(details_table,column=("id","contact","checkin","checkout","roomtype","roomavailable","meal",
-                                                                   "noOfdays"),xscrollcommand=scroll_x.set,yscrollcommand=scroll_y.set)
+# "id",
+        self.room_table=ttk.Treeview(details_table,column=("contact","checkin","checkout","roomtype","roomavailable","meal",
+                                                                   "noOfdays"),xscrollcommand=scroll_x.set,yscrollcommand=scroll_y.set)   
         
         scroll_x.pack(side=BOTTOM,fill=X)
         scroll_y.pack(side=RIGHT,fill=Y)
@@ -200,7 +198,7 @@ class Roombooking:
         scroll_x.config(command=self.room_table.xview)
         scroll_y.config(command=self.room_table.yview)
 
-        self.room_table.heading("id",text="BookingID")
+        # self.room_table.heading("id",text="BookingID")
         self.room_table.heading("contact",text="Contact")
         self.room_table.heading("checkin",text="Check-in")
         self.room_table.heading("checkout",text="Check-out")
@@ -212,7 +210,7 @@ class Roombooking:
 
         self.room_table["show"]="headings"
         
-        self.room_table.column("id",width=100)
+        # self.room_table.column("id",width=100)
         self.room_table.column("contact",width=100)
         self.room_table.column("checkin",width=100)
         self.room_table.column("checkout",width=100)
@@ -235,16 +233,16 @@ class Roombooking:
                 cursor = conn.cursor()
 
             
-                booking_id = f"B{random.randint(1000, 9999)}"
+                # booking_id = f"B{random.randint(1000, 9999)}"
 
-           
+           #BookingID,booking_id,
                 cursor.execute('''
                 INSERT INTO room_bookings (
-                    BookingID, CustomerContact, CheckInDate, CheckOutDate, RoomType,
+                     CustomerContact, CheckInDate, CheckOutDate, RoomType,
                     RoomNumber, MealPlan, NumberOfDays, PaidTax, SubTotal, TotalCost
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ''', (
-                booking_id, self.var_contact.get(), self.var_checkin.get(), self.var_checkout.get(),
+                self.var_contact.get(), self.var_checkin.get(), self.var_checkout.get(),
                 self.var_roomtype.get(), self.var_roomavailable.get(), self.var_meal.get(),
                 self.var_noofdays.get(), self.var_paidtax.get(), self.var_actualtotal.get(),
                 self.var_total.get()
@@ -252,7 +250,7 @@ class Roombooking:
 
                 conn.commit()
                 conn.close()
-                self.fetch_data()  # Refresh the table view
+                self.fetch_data()  
                 messagebox.showinfo("Success", "Room Booked successfully", parent=self.root)
 
             except Exception as es:
@@ -525,6 +523,31 @@ if __name__=="__main__":
 
 
 
+       
+        
+        
+        
+            
+
+               
+        
+
+       
+            
+                
+                   
+               
+               
+    
+            
+
+               
+
+               
+               
+
+            
+            
 
 
 
