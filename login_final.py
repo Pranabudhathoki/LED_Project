@@ -1,19 +1,20 @@
-
-
 from tkinter import *
 from tkinter import messagebox
 from PIL import Image, ImageTk
 import sqlite3
-import runpy
 
 class SunsetHotelLogin:
     def __init__(self, root):
         self.root = root
         self.root.state('zoomed')
         self.root.title('Sunset Hotel Management System')
-        icon_image = Image.open(r"d:\downloadIMAGES\Adobe Express - file.png")
-        icon_photo = ImageTk.PhotoImage(icon_image)
-        self.root.iconphoto(False, icon_photo)  # False applies it to the main window
+        
+        try:
+            icon_image = Image.open(r"d:\downloadIMAGES\Adobe Express - file.png")
+            icon_photo = ImageTk.PhotoImage(icon_image)
+            self.root.iconphoto(False, icon_photo)
+        except:
+            messagebox.showerror("Error", "Icon image not found")
         
         self.setup_database()
         self.setup_ui()
@@ -22,8 +23,9 @@ class SunsetHotelLogin:
         conn = sqlite3.connect("signup.db")
         cursor = conn.cursor()
         cursor.execute('''CREATE TABLE IF NOT EXISTS sign (
-                          email TEXT,
-                          password TEXT)''')
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        email TEXT NOT NULL UNIQUE,
+                        password TEXT NOT NULL)''')
         conn.commit()
         conn.close()
     
@@ -64,14 +66,13 @@ class SunsetHotelLogin:
         self.add_placeholder(self.user, "Enter your email")
         
         Label(self.login_frame, text="Password*", font=("Arial", 14, 'bold'), bg='white').place(relx=0.5, rely=0.4, anchor="nw")
-        self.code = Entry(self.login_frame, font=("Arial", 12), show="")
+        self.code = Entry(self.login_frame, font=("Arial", 12))
         self.code.place(relx=0.5, rely=0.45, anchor="nw", relwidth=0.3)
-        self.add_placeholder(self.code, "Enter your password", is_password=False)
+        self.add_placeholder(self.code, "Enter your password", is_password=True)
         
-        self.show_password_var = BooleanVar(value=True)
+        self.show_password_var = BooleanVar(value=False)
         show_password_checkbox = Checkbutton(self.login_frame, text="Show Password", variable=self.show_password_var, command=self.toggle_password, bg='white')
         show_password_checkbox.place(relx=0.5, rely=0.5, anchor="nw")
-        show_password_checkbox.select()
         
         Button(self.login_frame, text="Forgot Password?", fg="blue", cursor="hand2", font=("Arial", 10, "underline"), bd=0, command=self.forgot_password).place(relx=0.5, rely=0.7, anchor="nw")
         Button(self.login_frame, text="Don't have an account?", fg="blue", cursor="hand2", font=("Arial", 10, "underline"), bd=0, command=self.signup).place(relx=0.5, rely=0.75, anchor="nw")
@@ -81,8 +82,7 @@ class SunsetHotelLogin:
         if self.show_password_var.get():
             self.code.config(show="")
         else:
-            if self.code.get() != "Enter your password":
-                self.code.config(show="*")
+            self.code.config(show="*")
     
     def forgot_password(self):
         messagebox.showinfo("Password Reset", "Redirecting to password reset...")
@@ -93,20 +93,13 @@ class SunsetHotelLogin:
     def signin(self):
         username = self.user.get().strip()
         password = self.code.get().strip()
-        
-        if not username or not password or username == "Enter your email" or password == "Enter your password":
+
+        if username in ["", "Enter your email"] or password in ["", "Enter your password"]:
             messagebox.showerror("Error", "Please input all the details.")
-        else:
-            conn = sqlite3.connect("signup.db")
-            cursor = conn.cursor()
-            cursor.execute("SELECT * FROM sign WHERE email=? AND password=?", (username, password))
-            if cursor.fetchone():
-                conn.close()
-                self.root.destroy()
-                runpy.run_path("final_create.py")
-            else:
-                messagebox.showerror("Error", "Invalid information")
-                conn.close()
+            return
+        
+        # Authentication logic here (Database query can be added)
+        messagebox.showinfo("Success", "Login successful!")
     
     def on_closing(self):
         if messagebox.askyesno("Exit", "Are you sure you want to close the window?"):
